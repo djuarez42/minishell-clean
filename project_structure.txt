@@ -1,0 +1,46 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    project_structure.txt                              :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/28 19:18:02 by djuarez           #+#    #+#              #
+#    Updated: 2025/06/05 19:49:35 by djuarez          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+minishell/
+├── Makefile
+├── main.c
+├── include/
+│   ├── minishell.h
+│   ├── lexer.h
+│   ├── parser.h          ← encabezado del parser
+│   └── ...otros .h
+├── src/
+│   ├── lexer/
+│   │   ├── tokenizer.c
+│   │   └── lexer_utils.c
+│   ├── parser/
+│   │   ├── parser.c
+│   │   ├── parser_utils.c
+│   │   ├── parse_cmd.c
+│   │   ├── parse_redir.c
+│   │   ├── parse_pipe.c
+│   │   
+│   ├── executor/
+│   ├── builtins/
+│   ├── signals/
+│   └── utils/
+├── libft/
+
+
+src/
+├── parser/
+│   ├── parser.c           ← función principal que construye la lista de comandos
+│   ├── parser_utils.c     ← funciones auxiliares para parsing (comprobaciones, agrupación)
+│   ├── parse_cmd.c        ← agrupa argumentos de un comando simple
+│   ├── parse_redir.c      ← detecta y almacena redirecciones (<, >, >>, <<)
+│   ├── parse_pipe.c       ← divide los comandos según pipes
+
