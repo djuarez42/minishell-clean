@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:00:07 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/09 17:17:10 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:09:45 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,24 @@ t_cmd	*create_cmd_node(t_token **cur)
 		*cur = (*cur)->next;
 	}
 	return (cmd);
+}
+
+t_cmd	*parser_tokens(t_token *tokens)
+{
+	t_cmd	*head;
+	t_cmd	*last;
+	t_token	*cur;
+	t_cmd	*new_cmd;
+
+	head = NULL;
+	last = NULL;
+	cur = tokens;
+	while (cur && cur->type != TOKEN_EOF)
+	{
+		new_cmd = create_cmd_node(&cur);
+		if (!new_cmd)
+			return (free_cmds(head), NULL);
+		add_cmd_node(&head, &last, new_cmd);
+	}
+	return (head);
 }
