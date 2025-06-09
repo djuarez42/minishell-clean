@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:05:32 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/09 17:40:16 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/09 19:19:27 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_token	*parse_arguments(t_token *cur, t_cmd *cmd)
 	argc = 0;
 	cmd->argv = malloc (sizeof(char *) * MAX_ARGS);
 	if (!cmd->argv)
-		reuturn (NULL);
+		return (NULL);
 	while (cur && cur->type != TOKEN_PIPE && cur->type != TOKEN_EOF)
 	{
 		if (cur->type == TOKEN_WORD)
