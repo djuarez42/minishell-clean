@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 21:21:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/09 19:27:39 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/09 19:37:33 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,3 @@ int	add_argument(t_cmd *cmd, char *value, int *argc)
 	return (1);
 }
 
-void	print_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (i < cmd->argc)
-	{
-		printf("%s\n", cmd->argv[i]);
-		i++;
-	}
-}
