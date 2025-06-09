@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 21:21:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/09 14:58:24 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:39:01 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,19 @@ t_redir	*create_redir(t_token *cur)
 	}
 	redir->next = NULL;
 	return (redir);
+}
+
+int	add_argument(t_cmd *cmd, char *value, int *argc)
+{
+	cmd->argv[*argc] = ft_strdup(value);
+	if (!cmd->argv[*argc])
+	{
+		while (--(*argc) >= 0)
+			free(cmd->argv[*argc]);
+		free(cmd->argv);
+		cmd->argv = NULL;
+		return (0);
+	}
+	(*argc)++;
+	return (1);
 }

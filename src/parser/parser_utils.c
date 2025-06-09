@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:05:32 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/08 21:34:26 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:40:16 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_token	*parse_arguments(t_token *cur, t_cmd *cmd)
 		{
 			if (argc >= MAX_ARGS - 1)
 				break ;
-			cmd->argv[argc++] = ft_strdup(cur->value);
+			if (!add_argument(cmd, cur->value, &argc))
+				return (NULL);
 		}
 		else if (cur->type == TOKEN_REDIRECT_OUT
 			|| cur->type == TOKEN_REDIRECT_IN
@@ -70,9 +71,7 @@ t_token	*parse_cmd_block(t_token *cur, t_cmd *cmd)
 			|| cur->type == TOKEN_REDIRECT_IN
 			|| cur->type == TOKEN_APPEND
 			|| cur->type == TOKEN_HEREDOC))
-	{
 		cur = parse_redirections(cur, cmd);
-	}
 	return (cur);
 }
 

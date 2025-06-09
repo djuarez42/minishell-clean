@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:17:45 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/08 21:33:52 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:41:09 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_cmd
 
 void	free_cmds(t_cmd *cmd);
 void	free_redirs(t_redir *redir);
+int		add_argument(t_cmd *cmd, char *value, int *argc);
 t_cmd	*parser_tokens(t_token *tokens);
 t_token	*parse_arguments(t_token *cur, t_cmd *cmd);
 t_token	*parse_cmd_block(t_token *cur, t_cmd *cmd);
