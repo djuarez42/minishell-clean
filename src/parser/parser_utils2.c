@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 21:21:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/10 15:33:39 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 18:15:12 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,58 +45,39 @@ int	add_argument(t_cmd *cmd, char *value, int *argc)
 	return (1);
 }
 
-void	print_cmd_structure(t_cmd *cmd)
+void	print_redirs(t_redir *redir)
 {
-	int i;
-	t_redir *redir;
-	int cmd_num = 1;
-
-	while (cmd)
+	while (redir)
 	{
-		printf("=== Command #%d ===\n", cmd_num++);
-		
-		// Mostrar los argumentos
-		printf("Arguments:\n");
-		if (cmd->argv)
-		{
-			for (i = 0; cmd->argv[i]; i++)
-				printf("  argv[%d]: %s\n", i, cmd->argv[i]);
-		}
-		else
-		{
-			printf("  (No arguments)\n");
-		}
-
-		// Mostrar si hay pipe
-		printf("Pipe after this command: %s\n", cmd->pipe ? "Yes" : "No");
-
-		// Mostrar las redirecciones
-		redir = cmd->redirs;
-		if (redir)
-		{
-			printf("Redirections:\n");
-			while (redir)
-			{
-				char *type = "UNKNOWN";
-				if (redir->type == TOKEN_REDIRECT_OUT)
-					type = "REDIRECT_OUT";
-				else if (redir->type == TOKEN_REDIRECT_IN)
-					type = "REDIRECT_IN";
-				else if (redir->type == TOKEN_APPEND)
-					type = "APPEND";
-				else if (redir->type == TOKEN_HEREDOC)
-					type = "HEREDOC";
-				printf("  %s -> %s\n", type, redir->file);
-				redir = redir->next;
-			}
-		}
-		else
-		{
-			printf("Redirections: (None)\n");
-		}
-
-		printf("\n");
-		cmd = cmd->next;
+		printf("  vaRedir type: %d, file: %s\n", redir->type, redir->file);
+		redir = redir->next;
 	}
 }
 
+void	print_cmd_list(t_cmd *cmd_list)
+{
+	int	i;
+
+	while (cmd_list)
+	{
+		printf("Command:\n");
+		if (cmd_list->argv)
+		{
+			i = 0;
+			while (cmd_list->argv[i])
+			{
+				printf("  argv[%d]: %s\n", i, cmd_list->argv[i]);
+				i++;
+			}
+		}
+		else
+			printf("  argv is NULL\n");
+		printf("  Pipe: %d\n", cmd_list->pipe);
+		if (cmd_list->redirs)
+			print_redirs(cmd_list->redirs);
+		else
+			printf("  No redirections\n");
+		printf("\n");
+		cmd_list = cmd_list->next;
+	}
+}

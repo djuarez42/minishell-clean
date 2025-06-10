@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 18:27:06 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/04 21:22:41 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 17:30:16 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 // Otros headers del proyecto (por ahora, solo el lexer)
 # include "lexer.h"
+# include "parser.h"
 # include "libft.h"
 
 //Constantes globales si las necesitas

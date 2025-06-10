@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:17:45 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/10 15:35:33 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 18:15:12 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ t_token	*parse_arguments(t_token *cur, t_cmd *cmd);
 t_token	*parse_cmd_block(t_token *cur, t_cmd *cmd);
 t_token	*parse_redirections(t_token *cur, t_cmd *cmd);
 t_redir	*create_redir(t_token *cur);
-void		print_cmd_structure(t_cmd *cmd);
-
+void	print_redirs(t_redir *redir);
+void	print_cmd_list(t_cmd *cmd_list);
 #endif

@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 18:37:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/10 15:52:17 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 18:15:12 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,69 +34,19 @@ int	main(void)
 */
 
 #include "minishell.h"
-#include "lexer.h"
-#include "parser.h"
-
-// Función para imprimir los comandos parseados (debug)
-void print_cmds(t_cmd *cmds)
-{
-	while (cmds)
-	{
-		printf("Command:\n");
-		if (cmds->argv)
-		{
-			printf("  argv: ");
-			for (int i = 0; cmds->argv[i]; i++)
-				printf("'%s' ", cmds->argv[i]);
-			printf("\n");
-		}
-		else
-			printf("  argv: (null)\n");
-		t_redir *r = cmds->redirs;
-		while (r)
-		{
-			printf("  redir type: %d, file: %s\n", r->type, r->file);
-			r = r->next;
-		}
-		if (cmds->pipe)
-			printf("  pipe: yes\n");
-		else
-			printf("  pipe: no\n");
-		cmds = cmds->next;
-	}
-}
 
 int	main(void)
 {
 	char	*input;
 	t_token	*tokens;
-	t_cmd	*cmds;
+	t_cmd	*cmd;
 
-	while (1)
-	{
-		input = "echo hola | grep mundo > file.txt";
-		if (!input)
-			break ;
-		tokens = tokenize_input(input);
-		if (!tokens)
-		{
-			fprintf(stderr, "Error: failed to tokenize input\n");
-			free(input);
-			continue ;
-		}
-		print_token_list(tokens);
-		cmds = parser_tokens(tokens);
-		print_cmd_structure(cmds);
-		if (!cmds)
-		{
-			fprintf(stderr, "Error: failed to parse tokens\n");
-			free_token_list(tokens);
-			free(input);
-			continue ;
-		}
-		free_token_list(tokens);
-		//free_cmds(cmds);
-		free(input);
-	}
+	input = "ls -l | grep minishell > output.txt";
+	tokens = tokenize_input(input);
+	cmd = parser_tokens(tokens);
+	print_token_list(tokens);
+	print_cmd_list(cmd);
+	free_token_list(tokens);
+	free_cmds(cmd);
 	return (0);
 }
