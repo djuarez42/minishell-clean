@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:28:28 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/07 16:53:16 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:35:18 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_token
 }	t_token;
 
 //(Tokenize/lexer)utils
-char			**tokenize_input(const char *input);
+t_token			*tokenize_input(const char *input);
 int				is_quote(char c);
 int				is_operator(char c);
 int				operator_len(const char *s);

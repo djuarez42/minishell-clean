@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:00:07 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/09 18:09:45 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:30:12 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	add_cmd_node(t_cmd **head, t_cmd **last, t_cmd *new_cmd)
 {
 	if (!*head)
-		head = new_cmd;
+		*head = new_cmd;
 	else
 		(*last)->next = new_cmd;
 	*last = new_cmd;
@@ -32,7 +32,7 @@ t_cmd	*create_cmd_node(t_token **cur)
 	cmd->redirs = NULL;
 	cmd->pipe = 0;
 	cmd->next = NULL;
-	*cur = parse_cmd_block(cur, cmd);
+	*cur = parse_cmd_block(*cur, cmd);
 	if (!*cur)
 		return (free(cmd), NULL);
 	if ((*cur)->type == TOKEN_PIPE)

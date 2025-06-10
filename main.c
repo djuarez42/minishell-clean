@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 18:37:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/09 19:39:27 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:52:17 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ int	main(void)
 */
 
 #include "minishell.h"
-
 #include "lexer.h"
 #include "parser.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 // Función para imprimir los comandos parseados (debug)
 void print_cmds(t_cmd *cmds)
@@ -69,25 +66,37 @@ void print_cmds(t_cmd *cmds)
 	}
 }
 
-int main(void)
+int	main(void)
 {
-	char *input = "echo hola > out.txt | cat < in.txt";
-	t_token *tokens = lexer(input);
-	if (!tokens)
-	{
-		printf("Lexer failed.\n");
-		return (1);
-	}
-	t_cmd *cmds = parser_tokens(tokens);
-	if (!cmds)
-	{
-		printf("Parser failed.\n");
-		free_tokens(tokens);
-		return (1);
-	}
-	print_cmds(cmds);
-	free_tokens(tokens);
-	free_cmds(cmds);
+	char	*input;
+	t_token	*tokens;
+	t_cmd	*cmds;
 
+	while (1)
+	{
+		input = "echo hola | grep mundo > file.txt";
+		if (!input)
+			break ;
+		tokens = tokenize_input(input);
+		if (!tokens)
+		{
+			fprintf(stderr, "Error: failed to tokenize input\n");
+			free(input);
+			continue ;
+		}
+		print_token_list(tokens);
+		cmds = parser_tokens(tokens);
+		print_cmd_structure(cmds);
+		if (!cmds)
+		{
+			fprintf(stderr, "Error: failed to parse tokens\n");
+			free_token_list(tokens);
+			free(input);
+			continue ;
+		}
+		free_token_list(tokens);
+		//free_cmds(cmds);
+		free(input);
+	}
 	return (0);
 }
