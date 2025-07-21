@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:42:15 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/20 19:33:27 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/21 16:48:51 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*find_executable(char *cmd)
 	return (NULL);
 }
 
-void	execute_cmd(t_cmd *cmd)
+void	execute_cmd(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
 	int		status;
@@ -59,7 +59,7 @@ void	execute_cmd(t_cmd *cmd)
 			ft_putchar_fd('\n', 2);
 			exit(127);
 		}
-		execve(exec_path, cmd->argv, environ);
+		execve(exec_path, cmd->argv, envp);
 		perror("execve");
 		exit(1);
 	}
@@ -70,14 +70,14 @@ void	execute_cmd(t_cmd *cmd)
 }
 
 
-void	executor(t_cmd *cmd_list)
+void	executor(t_cmd *cmd_list, char **envp)
 {
 	t_cmd	*cmd;
 
 	cmd = cmd_list;
 	while (cmd)
 	{
-		execute_cmd(cmd);
+		execute_cmd(cmd, envp);
 		cmd = cmd->next;
 	}
 }
