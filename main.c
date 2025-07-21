@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 18:37:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 16:48:57 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/21 21:23:58 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,28 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_token	*tokens;
 	t_cmd	*cmd;
+	char	**envp_copy;
 
 	(void)argc;
 	(void)argv;
-
-	input = "ls -l";
-	tokens = tokenize_input(input);
-	cmd = parser_tokens(tokens);
-	if (cmd)
-		executor(cmd, envp);
-	//print_token_list(tokens);
-	//print_cmd_list(cmd);
-	//executor(cmd, envp);
-	free_token_list(tokens);
-	free_cmds(cmd);
+	envp_copy = new_envp(envp);
+	if (!envp_copy)
+		return (1);
+	while (1)
+	{
+		input = readline(PROMPT);
+		if (!input)
+			break ;
+		if (*input)
+			add_history(input);
+		tokens = tokenize_input(input);
+		cmd = parser_tokens(tokens);
+		if (cmd)
+			executor(cmd, envp_copy);
+		free_token_list(tokens);
+		free_cmds(cmd);
+		free(input);
+	}
+	free_envp(envp_copy);
 	return (0);
 }

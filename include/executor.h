@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:23:23 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 16:30:50 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/21 20:05:18 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ void	executor(t_cmd *cmd_list, char **envp);
 //Utils
 void	free_split(char **split);
 char	*ft_strjoin_free(char *s1, char *s2);
+char	**new_envp(char **envp);
+void	free_envp(char **envp_copy);
 
 #endif

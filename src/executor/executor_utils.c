@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 19:34:20 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 14:53:55 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/21 19:53:08 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,3 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	free(s1);
 	return (joined);
 }
-
-
-
