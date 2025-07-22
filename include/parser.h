@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:17:45 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 20:45:07 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:36:58 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ typedef struct s_redir
 	int					type;
 	struct s_redir		*next;
 }	t_redir;
-
-
 
 typedef struct s_cmd
 {

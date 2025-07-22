@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:42:15 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 21:23:57 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/22 19:55:35 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
+		handle_redirections(cmd->redirs);
 		exec_path = find_executable(cmd->argv[0]);
 		if (!exec_path)
 		{
@@ -68,7 +69,6 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	else
 		perror("fork");
 }
-
 
 void	executor(t_cmd *cmd_list, char **envp)
 {
