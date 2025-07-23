@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:42:15 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/23 16:46:12 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/23 21:18:54 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ char	*find_executable(char *cmd)
 	return (NULL);
 }
 
+static void	execute_execve(char *exec_path, char **argv, char **envp)
+{
+	fflush(stdout);
+	printf("Ejecutando el comando: %s\n", exec_path);
+	if (execve(exec_path, argv, envp) == -1)
+	{
+		perror("execve");
+		exit (1);
+	}
+}
+
 void	execute_cmd(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
@@ -51,6 +62,8 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
+		fflush(stdout);
+		printf("Llamando a handle_redirections\n");
 		handle_redirections(cmd->redirs);
 		exec_path = find_executable(cmd->argv[0]);
 		if (!exec_path)
@@ -60,9 +73,7 @@ void	execute_cmd(t_cmd *cmd, char **envp)
 			ft_putchar_fd('\n', 2);
 			exit(127);
 		}
-		execve(exec_path, cmd->argv, envp);
-		perror("execve");
-		exit(1);
+		execute_execve(exec_path, cmd->argv, envp);
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
