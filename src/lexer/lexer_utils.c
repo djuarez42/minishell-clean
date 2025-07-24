@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 11:03:33 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/06 18:44:00 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:20:44 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	fill_tokens(const char *input, char **tokens)
 		i++;
 	}
 	tokens[i] = NULL;
-	//printf("fill_tokens: tokens[%d] = NULL (fin de tokens)\n", i);
 	return (1);
 }
 

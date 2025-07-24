@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:34:49 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/23 21:18:52 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/24 17:08:28 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	handle_redirections_out(const char *filename)
 		close (fd);
 		exit(1);
 	}
-	close (fd);
 }
 
 void	handle_redirections_in(const char *filename)
@@ -47,7 +46,6 @@ void	handle_redirections_in(const char *filename)
 		close(fd);
 		exit(1);
 	}
-	close (fd);
 }
 
 void	handle_redirections_append(const char *filename)
@@ -60,17 +58,12 @@ void	handle_redirections_append(const char *filename)
 		perror("open (redirect append)");
 		exit (1);
 	}
-	fflush(stdout);
-	printf("redirigiendo salida a : %s\n", filename);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("dup2 (redirect append)");
 		close(fd);
 		exit(1);
 	}
-	fflush(stdout);
-	printf("Redirección exitosa: flujo de salida redirigido a %s\n", filename);
-	close (fd);
 }
 
 void	handle_redirections(t_redir *redir)
@@ -82,10 +75,7 @@ void	handle_redirections(t_redir *redir)
 		else if (redir->type == TOKEN_REDIRECT_IN)
 			handle_redirections_in(redir->file);
 		else if (redir->type == TOKEN_APPEND)
-		{
-			printf("redireccio append detectada: %s\n", redir->file);
 			handle_redirections_append(redir->file);
-		}
 		redir = redir->next;
 	}
 }

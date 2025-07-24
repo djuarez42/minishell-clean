@@ -6,7 +6,7 @@
 #    By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 19:18:02 by djuarez           #+#    #+#              #
-#    Updated: 2025/06/05 19:49:35 by djuarez          ###   ########.fr        #
+#    Updated: 2025/07/24 17:45:13 by djuarez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,4 @@ minishell/
 │   └── utils/
 ├── libft/
 
-
-src/
-├── parser/
-│   ├── parser.c           ← función principal que construye la lista de comandos
-│   ├── parser_utils.c     ← funciones auxiliares para parsing (comprobaciones, agrupación)
-│   ├── parse_cmd.c        ← agrupa argumentos de un comando simple
-│   ├── parse_redir.c      ← detecta y almacena redirecciones (<, >, >>, <<)
-│   ├── parse_pipe.c       ← divide los comandos según pipes
 

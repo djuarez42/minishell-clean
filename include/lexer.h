@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:28:28 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/10 15:35:18 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/24 12:13:18 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void			print_token_list(t_token *token);
 void			free_token_list(t_token *head);
 t_token			*append_token_eof(t_token *head, t_token *cur);
 const char		*token_type_str(t_token_type type);
+char			*remove_quotes(char *str);
 
 #endif

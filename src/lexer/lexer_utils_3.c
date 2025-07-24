@@ -6,11 +6,12 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 16:45:58 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/07 16:58:30 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/24 12:12:40 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "minishell.h"
 
 const char	*token_type_str(t_token_type type)
 {
@@ -30,3 +31,17 @@ const char	*token_type_str(t_token_type type)
 		return ("EOF");
 	return ("UNKNOWN");
 }
+
+char	*remove_quotes(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (len > 1 && str[0] == '"' && str[len - 1] == '"')
+	{
+		str[len - 1] = '\0';
+		return (str + 1);
+	}
+	return (str);
+}
+
