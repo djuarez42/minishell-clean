@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:46:30 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/24 17:43:57 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/26 17:48:57 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 t_token_type	determine_token_type(char *str)
 {
-	if (ft_strncmp(str, ">>", 2) == 0)
+	if (ft_strncmp(str, "<<", 2) == 0)
+		return (TOKEN_HEREDOC);
+	else if (ft_strncmp(str, ">>", 2) == 0)
 		return (TOKEN_APPEND);
-	else if (ft_strncmp(str, "|", 1) == 0)
-		return (TOKEN_PIPE);
 	else if (ft_strncmp(str, "<", 1) == 0)
 		return (TOKEN_REDIRECT_IN);
 	else if (ft_strncmp(str, ">", 1) == 0)
 		return (TOKEN_REDIRECT_OUT);
-	else if (ft_strncmp(str, "<<", 2) == 0)
-		return (TOKEN_HEREDOC);
+	else if (ft_strncmp(str, "|", 1) == 0)
+		return (TOKEN_PIPE);
 	else
 		return (TOKEN_WORD);
 }

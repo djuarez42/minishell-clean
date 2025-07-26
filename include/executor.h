@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:23:23 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/24 18:21:17 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/26 16:59:09 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	handle_redirections_and_quotes(t_redir *redirs);
 void	execute_command(char *exec_path, t_cmd *cmd, char **envp);
 void	execute_execve(char *exec_path, char **argv, char **envp);
 char	*find_executable(char *cmd);
-
+void	handle_redirections_heredoc(const char	*delimiter);
 #endif
