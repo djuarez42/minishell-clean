@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 18:27:06 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 18:03:25 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/30 11:57:01 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 //Librerias para el proyecto minishell
 # include <readline/readline.h>

@@ -6,14 +6,14 @@
 #    By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 16:09:51 by djuarez           #+#    #+#              #
-#    Updated: 2025/07/23 15:20:36 by djuarez          ###   ########.fr        #
+#    Updated: 2025/07/30 16:10:58 by djuarez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #fsanitize=address -g
 
 INCLUDES = -Iinclude -Ilibft
 
@@ -29,6 +29,7 @@ SRC = main.c \
 		src/lexer/token_lexer_utils.c \
 		src/lexer/tokenizer_utils_2.c \
 		src/lexer/lexer_utils_3.c \
+		src/lexer/lexer_utils_4.c \
 		src/parser/parser.c \
 		src/parser/parser_utils.c \
 		src/parser/parser_utils2.c \
@@ -39,7 +40,7 @@ SRC = main.c \
 
 OBJ = $(SRC:.c=.o)
 
-%.o: %.c
+%.o: %.c Makefile 
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 all: $(LIBFT) $(NAME)

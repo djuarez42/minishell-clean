@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:20:01 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/24 17:22:26 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/31 20:50:42 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,16 @@
 
 t_token	*tokenize_input(const char *input)
 {
-	char	**raw_tokens;
+	char	**tokens;
 	t_token	*token_list;
-	int		count;
-	int		j;
-
+	
 	if (!input)
 		return (NULL);
-	count = count_tokens(input);
-	raw_tokens = malloc(sizeof(char *) * (count + 1));
-	if (!raw_tokens)
+	tokens = clean_input_quotes(input);
+	if (!tokens)
 		return (NULL);
-	j = 0;
-	while (j < count + 1)
-		raw_tokens[j++] = NULL;
-	if (!fill_tokens(input, raw_tokens))
-	{
-		free_tokens(raw_tokens, count);
-		return (NULL);
-	}
-	token_list = build_token_list(raw_tokens);
-	free_tokens(raw_tokens, count);
+	token_list = build_token_list(tokens);
+	free_tokens(tokens, -1);
+	print_token_list(token_list);
 	return (token_list);
 }

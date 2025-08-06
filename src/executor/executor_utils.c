@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 19:34:20 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/24 18:07:58 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/27 13:03:19 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ void	free_split(char **split)
 	while (split && split[i])
 		free(split[i++]);
 	free(split);
-}
-
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*joined;
-
-	joined = ft_strjoin(s1, s2);
-	free(s1);
-	return (joined);
 }
 
 void	handle_redirections_and_quotes(t_redir *redirs)

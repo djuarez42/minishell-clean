@@ -6,12 +6,13 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 17:42:15 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/24 18:15:24 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/27 13:01:50 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
+#include "libft.h"
 
 char	*find_executable(char *cmd)
 {

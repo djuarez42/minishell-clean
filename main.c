@@ -5,41 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 18:37:22 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/21 21:35:44 by djuarez          ###   ########.fr       */
+/*   Created: 2025/07/31 20:30:46 by djuarez           #+#    #+#             */
+/*   Updated: 2025/08/06 17:23:54 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "executor.h"
 
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
-	char	*input;
-	t_token	*tokens;
-	t_cmd	*cmd;
-	char	**envp_copy;
+	char	*tests[] = {
+		"echo hola mundo",
+		"   ls   -la   ",
+		"cat    archivo.txt",
+		"grep    'hola mundo' archivo.txt",
+		"echo\"hola\"",
+		"\"quoted\"text",
+		"\"\"echo\"\" hola",
+		"\"ec\"\"ho\" \"ho\"la",
+		"   ",
+		"",
+		NULL
+	};
+	int		i;
+	char	**tokens;
+	int		j;
 
-	(void)argc;
-	(void)argv;
-	envp_copy = new_envp(envp);
-	if (!envp_copy)
-		return (1);
-	while (1)
+	for (i = 0; tests[i]; i++)
 	{
-		input = readline(PROMPT);
-		if (!input)
-			break ;
-		if (*input)
-			add_history(input);
-		tokens = tokenize_input(input);
-		cmd = parser_tokens(tokens);
-		if (cmd)
-			executor(cmd, envp_copy);
-		free_token_list(tokens);
-		free_cmds(cmd);
-		free(input);
+		printf("\n📥 Test %d: [%s]\n", i + 1, tests[i]);
+		tokens = reconstruct_words(tests[i]);
+		if (!tokens)
+		{
+			printf("❌ reconstruct_words devolvió NULL\n");
+			continue;
+		}
+		for (j = 0; tokens[j]; j++)
+			printf("🔹 Token %d: [%s]\n", j, tokens[j]);
+		// liberar memoria
+		for (j = 0; tokens[j]; j++)
+			free(tokens[j]);
+		free(tokens);
 	}
-	free_envp(envp_copy);
 	return (0);
 }

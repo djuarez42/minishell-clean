@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:40:15 by djuarez           #+#    #+#             */
-/*   Updated: 2025/06/04 15:59:37 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/07/31 20:21:24 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,51 +30,38 @@ int	operator_len(const char *s)
 	return (1);
 }
 
-int	token_len(const char *s)
+int	skip_spaces(const char *s, int i)
 {
-	int		i;
-	char	quote;
-
-	i = 0;
-	if (is_quote(s[0]))
+	while (s[i])
 	{
-		quote = s[0];
+		printf("🔬 skip_spaces: i=%d, char='%c' (%d), isspace=%d\n",
+			i, s[i], (int)s[i], ft_isspace((unsigned char)s[i]));
+		if (!ft_isspace((unsigned char)s[i]))
+			break;
 		i++;
-		while (s[i] && s[i] != quote)
-			i++;
-		if (s[i] == quote)
-			i++;
-	}
-	else
-	{
-		while (s[i] && !is_operator(s[i]) && !is_quote(s[i])
-			&& !ft_isspace(s[i]))
-			i++;
 	}
 	return (i);
 }
 
-char	*next_token(const char *s)
-{
-	int		i;
-	char	*quote_token;
 
-	i = 0;
-	while (s[i] && ft_isspace(s[i]))
-		i++;
-	if (!s[i])
+char	*str_append(char *base, const char *add)
+{
+	char	*new;
+	size_t	len;
+
+	len = 0;
+	if (base)
+		len += ft_strlen(base);
+	if (add)
+		len += ft_strlen(add);
+	new = malloc(len + 1);
+	if (!new)
 		return (NULL);
-	if (is_operator(s[i]))
-	{
-		if ((s[i] == '>' && s[i + 1] == '>') || (s[i] == '<'
-				&& s[i + 1] == '<'))
-			return (ft_substr(s, i, 2));
-		return (ft_substr(s, i, 1));
-	}
-	if (is_quote(s[i]))
-	{
-		quote_token = handle_quotes(s, i);
-		return (quote_token);
-	}
-	return (extract_word(s, i));
+	new[0] = '\0';
+	if (base)
+		ft_strlcat(new, base, len + 1);
+	if (add)
+		ft_strlcat(new, add, len + 1);
+	free(base);
+	return (new);
 }
