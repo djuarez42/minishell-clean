@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    project_structure.txt                              :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+         #
+#    By: ekakhmad <ekakhmad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 19:18:02 by djuarez           #+#    #+#              #
-#    Updated: 2025/07/30 14:09:06 by djuarez          ###   ########.fr        #
+#    Updated: 2025/08/06 18:51:55 by ekakhmad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,3 +88,37 @@ Orden	Función	Estado	Rol
 Orden	Función	Estado	Rol
 16	debug_quotes_status	        🔜 Opcional	Imprime resultados para pruebas internas de quotes
 17	print_token_list	        ✅ Hecha	Imprime t_token * (ya existente y útil para testing)
+
+
+
+
+# MiniShell Architecture & Data Flow
+
+
+
+## Alternative #2: Plain ASCII
+
+```
++-----------------+      +-------------+      +------------+      +-------------+
+|  User Input     | ---> |   Lexer     | ---> |  Parser    | ---> | Executor    |
+| (readline())    |      |             |      |            |      |             |
++-----------------+      +------+------+      +----+-------+      +------+------+
+                             |                     |                   |
+                             v                     v                   v
+                    +----------------+     +--------------+     +--------------+
+                    | clean_input    |     | create_cmd   |     | execute_cmd()|
+                    | quotes()       |     | node()       |     | (fork & exec)|
+                    +----------------+     +--------------+     +--------------+
+                             |                     |
+                             v                     v
+                    +----------------+     +---------------+
+                    | reconstruct     |     | parse_args & |
+                    | words()         |     | parse_redirs |
+                    +----------------+     +---------------+
+                             |                     |
+                             v                     v
+                    +----------------+     +---------------+
+                    | build_token    |     | t_cmd linked  |
+                    | list()         |     | list          |
+                    +----------------+     +---------------+
+```
