@@ -6,13 +6,12 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:06:07 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/31 17:56:48 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/08/06 21:27:33 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
-
 
 int	token_len(const char *s)
 {
@@ -37,3 +36,4 @@ int	token_len(const char *s)
 	}
 	return (i);
 }
+

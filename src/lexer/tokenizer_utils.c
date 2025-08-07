@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 20:40:15 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/31 20:21:24 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/08/06 20:24:56 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,12 @@ int	skip_spaces(const char *s, int i)
 {
 	while (s[i])
 	{
-		printf("🔬 skip_spaces: i=%d, char='%c' (%d), isspace=%d\n",
-			i, s[i], (int)s[i], ft_isspace((unsigned char)s[i]));
 		if (!ft_isspace((unsigned char)s[i]))
-			break;
+			break ;
 		i++;
 	}
 	return (i);
 }
-
 
 char	*str_append(char *base, const char *add)
 {

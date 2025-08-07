@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:30:46 by djuarez           #+#    #+#             */
-/*   Updated: 2025/08/06 17:23:54 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/08/06 20:51:42 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	char	*tests[] = {
+	const char *tests[] = {
 		"echo hola mundo",
 		"   ls   -la   ",
 		"cat    archivo.txt",
@@ -25,27 +25,38 @@ int	main(void)
 		"\"ec\"\"ho\" \"ho\"la",
 		"   ",
 		"",
+		"echo hola > out.txt",
+		"ls -l | grep mini",
+		"cat < infile.txt > outfile.txt",
+		"echo hey >> log.txt",
+		"cat << EOF",
 		NULL
 	};
-	int		i;
-	char	**tokens;
-	int		j;
-
-	for (i = 0; tests[i]; i++)
+	for (int i = 0; tests[i]; i++)
 	{
-		printf("\n📥 Test %d: [%s]\n", i + 1, tests[i]);
-		tokens = reconstruct_words(tests[i]);
+		printf("\n🔹 TEST %d: [%s]\n", i + 1, tests[i]);
+		char *input = ft_strdup(tests[i]);
+		if (!input)
+			continue ;
+		t_token *tokens = tokenize_input(input);
 		if (!tokens)
 		{
-			printf("❌ reconstruct_words devolvió NULL\n");
-			continue;
+			printf("Lexer returned NULL\n");
+			free(input);
+			continue ;
 		}
-		for (j = 0; tokens[j]; j++)
-			printf("🔹 Token %d: [%s]\n", j, tokens[j]);
-		// liberar memoria
-		for (j = 0; tokens[j]; j++)
-			free(tokens[j]);
-		free(tokens);
+		t_cmd *cmd_list = parser_tokens(tokens);
+		if (!cmd_list)
+		{
+			printf("Parser returned NULL\n");
+			free_token_list(tokens);
+			free(input);
+			continue ;
+		}
+		print_cmd_list(cmd_list);
+		free_cmds(cmd_list);
+		free_token_list(tokens);
+		free(input);
 	}
 	return (0);
 }

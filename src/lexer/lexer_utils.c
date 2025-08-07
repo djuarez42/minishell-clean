@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 11:03:33 by djuarez           #+#    #+#             */
-/*   Updated: 2025/07/31 18:42:22 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/08/06 20:24:30 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_blank(const char *s)
 void	free_tokens(char **tokens, int max)
 {
 	int	i;
-	
+
 	if (!tokens)
 		return ;
 	i = 0;
