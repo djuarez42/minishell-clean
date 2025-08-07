@@ -6,57 +6,44 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 20:30:46 by djuarez           #+#    #+#             */
-/*   Updated: 2025/08/06 20:51:42 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/08/07 16:55:29 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
-	const char *tests[] = {
-		"echo hola mundo",
-		"   ls   -la   ",
-		"cat    archivo.txt",
-		"grep    'hola mundo' archivo.txt",
-		"echo\"hola\"",
-		"\"quoted\"text",
-		"\"\"echo\"\" hola",
-		"\"ec\"\"ho\" \"ho\"la",
-		"   ",
-		"",
-		"echo hola > out.txt",
-		"ls -l | grep mini",
-		"cat < infile.txt > outfile.txt",
-		"echo hey >> log.txt",
-		"cat << EOF",
-		NULL
-	};
-	for (int i = 0; tests[i]; i++)
+	char	*input;
+	t_token	*tokens;
+	t_cmd	*cmds;
+	char	**envp_copy;
+
+	(void)argc;
+	(void)argv;
+	envp_copy = new_envp(envp);
+	if (!envp_copy)
+		return (1);
+	while (1)
 	{
-		printf("\n🔹 TEST %d: [%s]\n", i + 1, tests[i]);
-		char *input = ft_strdup(tests[i]);
+		input = readline("minishell$ ");
 		if (!input)
-			continue ;
-		t_token *tokens = tokenize_input(input);
+			break ;
+		if (*input)
+			add_history(input);
+		tokens = tokenize_input(input);
 		if (!tokens)
 		{
-			printf("Lexer returned NULL\n");
 			free(input);
 			continue ;
 		}
-		t_cmd *cmd_list = parser_tokens(tokens);
-		if (!cmd_list)
-		{
-			printf("Parser returned NULL\n");
-			free_token_list(tokens);
-			free(input);
-			continue ;
-		}
-		print_cmd_list(cmd_list);
-		free_cmds(cmd_list);
+		cmds = parser_tokens(tokens);
+		if (cmds)
+			executor(cmds, envp_copy);
 		free_token_list(tokens);
+		free_cmds(cmds);
 		free(input);
 	}
+	free_envp(envp_copy);
 	return (0);
 }

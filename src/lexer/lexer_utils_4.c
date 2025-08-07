@@ -6,7 +6,7 @@
 /*   By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 16:09:54 by djuarez           #+#    #+#             */
-/*   Updated: 2025/08/06 21:26:27 by djuarez          ###   ########.fr       */
+/*   Updated: 2025/08/07 16:15:05 by djuarez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ char	**reconstruct_words(const char *input)
 {
 	int		i;
 	int		last_i;
+	int		tok_i;
 	char	*tmp;
 	char	**tokens;
-	int		tok_i;
 
 	i = 0;
 	tok_i = 0;
@@ -69,18 +69,11 @@ char	**reconstruct_words(const char *input)
 	while (input[i])
 	{
 		last_i = i;
-		i = skip_spaces(input, i);
-		if (!input[i])
+		i = process_spaces_and_quotes(input, i, &tmp);
+		if (i == -1)
 			break ;
-		if (is_quote(input[i]))
-			tmp = handle_quoted_part(input, &i, tmp);
-		else if (!ft_isspace(input[i]) && input[i] != '\0')
-			tmp = handle_plain_text(input, &i, tmp);
-		if (tmp && (ft_isspace(input[i]) || input[i] == '\0'))
-		{
-			if (tmp[0] != '\0')
-				add_token(tokens, &tok_i, &tmp);
-		}
+		if (should_add_token(input, i, tmp))
+			check_and_add_token(tokens, &tok_i, &tmp);
 		if (last_i == i)
 			i++;
 	}
