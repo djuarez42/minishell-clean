@@ -6,7 +6,11 @@
 #    By: ekakhmad <ekakhmad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 19:18:02 by djuarez           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/08/06 19:02:41 by ekakhmad         ###   ########.fr        #
+=======
+#    Updated: 2025/08/06 18:51:55 by ekakhmad         ###   ########.fr        #
+>>>>>>> 966ecad152ee0b5866ada87829eb11feeca9f616
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +99,13 @@ Orden	Función	Estado	Rol
 # MiniShell Architecture & Data Flow
 
 
+<<<<<<< HEAD
+=======
+
+## Alternative #2: Plain ASCII
+
+```
+>>>>>>> 966ecad152ee0b5866ada87829eb11feeca9f616
 +-----------------+      +-------------+      +------------+      +-------------+
 |  User Input     | ---> |   Lexer     | ---> |  Parser    | ---> | Executor    |
 | (readline())    |      |             |      |            |      |             |
