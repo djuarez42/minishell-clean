@@ -6,14 +6,14 @@
 #    By: djuarez <djuarez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 16:09:51 by djuarez           #+#    #+#              #
-#    Updated: 2025/07/30 16:10:58 by djuarez          ###   ########.fr        #
+#    Updated: 2025/08/07 17:49:40 by djuarez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc 
-CFLAGS = -Wall -Wextra -Werror #fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 
 INCLUDES = -Iinclude -Ilibft
 
