@@ -1,0 +1,14 @@
+# macOS system files
+.DS_Store
+
+# Build artifacts
+*.o
+minishell
+a.out
+build/
+bin/
+obj/
+
+# Editor/IDE
+.vscode/
+.idea/
