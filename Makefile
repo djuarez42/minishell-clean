@@ -20,7 +20,20 @@ INCLUDES = -Iinclude -Ilibft
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-LIBS = -lreadline
+# Detect OS to link readline correctly
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	# macOS (Homebrew usually provides readline in default search paths)
+	READLINE_LIBS = -lreadline
+	READLINE_INC  =
+else
+	# Linux/Ubuntu: readline commonly requires ncurses (or tinfo)
+	READLINE_LIBS = -lreadline -lncurses
+	READLINE_INC  =
+endif
+
+LIBS = $(READLINE_LIBS)
+INCLUDES += $(READLINE_INC)
 
 SRC = main.c \
 		src/lexer/tokenizer.c \
