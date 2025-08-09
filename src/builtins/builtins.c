@@ -13,6 +13,7 @@
 #include "builtins.h"
 #include "libft.h"
 #include "minishell.h"
+#include "executor.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,37 +97,109 @@ int bi_env(char **envp)
     return (0);
 }
 
-int bi_cd(char **argv, char **envp)
+static void update_pwd_vars(char ***penvp)
 {
-    (void)envp;
+    char    *oldpwd;
+    char    *newpwd;
+    char    *env_old;
+
+    // Determine oldpwd: prefer PWD from env, fallback to getcwd
+    env_old = env_get_value(*penvp, "PWD");
+    if (env_old)
+        oldpwd = ft_strdup(env_old);
+    else
+        oldpwd = getcwd(NULL, 0);
+
+    // Determine newpwd from current directory after chdir
+    newpwd = getcwd(NULL, 0);
+
+    if (oldpwd)
+        env_set_var(penvp, "OLDPWD", oldpwd);
+    if (newpwd)
+        env_set_var(penvp, "PWD", newpwd);
+
+    free(oldpwd);
+    free(newpwd);
+}
+
+int bi_cd(char **argv, char ***penvp)
+{
+    const char *path;
+
     if (!argv[1])
     {
         ft_putendl_fd("minishell: cd: missing operand", STDERR_FILENO);
         return (1);
     }
-    if (chdir(argv[1]) == -1)
+    path = argv[1];
+
+    // Attempt to change directory
+    if (chdir(path) == -1)
     {
         perror("cd");
         return (1);
     }
-    // TODO: update PWD/OLDPWD in envp state
+
+    // Update PWD and OLDPWD in environment
+    update_pwd_vars(penvp);
     return (0);
 }
 
-int bi_export(char **argv, char **envp)
+int bi_export(char **argv, char ***penvp)
 {
-    (void)argv;
-    (void)envp;
-    // TODO: implement environment modifications and printing (no options)
-    return (0);
+    int i;
+    int status;
+
+    if (!argv[1])
+        return bi_env(*penvp);
+    status = 0;
+    i = 1;
+    while (argv[i])
+    {
+        if (ft_strchr(argv[i], '='))
+        {
+            if (!env_set_assignment(penvp, argv[i]))
+            {
+                ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+                ft_putstr_fd(argv[i], STDERR_FILENO);
+                ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+                status = 1;
+            }
+        }
+        else
+        {
+            if (!env_identifier_valid(argv[i]) || !env_set_var(penvp, argv[i], ""))
+            {
+                ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+                ft_putstr_fd(argv[i], STDERR_FILENO);
+                ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+                status = 1;
+            }
+        }
+        i++;
+    }
+    return status;
 }
 
-int bi_unset(char **argv, char **envp)
+int bi_unset(char **argv, char ***penvp)
 {
-    (void)argv;
-    (void)envp;
-    // TODO: implement removing variables from environment
-    return (0);
+    int i;
+    int status;
+
+    status = 0;
+    i = 1;
+    while (argv[i])
+    {
+        if (!env_identifier_valid(argv[i]) || !env_unset_var(penvp, argv[i]))
+        {
+            ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+            ft_putstr_fd(argv[i], STDERR_FILENO);
+            ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+            status = 1;
+        }
+        i++;
+    }
+    return status;
 }
 
 int bi_exit(char **argv)
@@ -140,35 +213,35 @@ int bi_exit(char **argv)
     return (status & 0xFF);
 }
 
-static int dispatch_builtin(char **argv, char **envp)
+static int dispatch_builtin(char **argv, char ***penvp)
 {
     if (!ft_strncmp(argv[0], "echo", 5))
         return bi_echo(argv);
     if (!ft_strncmp(argv[0], "pwd", 4))
         return bi_pwd();
     if (!ft_strncmp(argv[0], "env", 4))
-        return bi_env(envp);
+        return bi_env(*penvp);
     if (!ft_strncmp(argv[0], "cd", 3))
-        return bi_cd(argv, envp);
+        return bi_cd(argv, penvp);
     if (!ft_strncmp(argv[0], "export", 7))
-        return bi_export(argv, envp);
+        return bi_export(argv, penvp);
     if (!ft_strncmp(argv[0], "unset", 6))
-        return bi_unset(argv, envp);
+        return bi_unset(argv, penvp);
     if (!ft_strncmp(argv[0], "exit", 5))
         return bi_exit(argv);
     return (1);
 }
 
-int run_builtin_in_child(t_cmd *cmd, char **envp)
+int run_builtin_in_child(t_cmd *cmd, char ***penvp)
 {
-    return dispatch_builtin(cmd->argv, envp);
+    return dispatch_builtin(cmd->argv, penvp);
 }
 
-int run_builtin_in_parent(t_cmd *cmd, char **envp)
+int run_builtin_in_parent(t_cmd *cmd, char ***penvp)
 {
     int status;
 
-    status = dispatch_builtin(cmd->argv, envp);
+    status = dispatch_builtin(cmd->argv, penvp);
     if (!ft_strncmp(cmd->argv[0], "exit", 5))
         exit(status);
     return status;

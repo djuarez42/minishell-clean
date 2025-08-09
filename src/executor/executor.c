@@ -202,8 +202,8 @@ static int	run_pipeline(t_cmd *start, size_t n_cmds, char **envp)
 			// Apply per-command redirections (override pipe ends if necessary)
 			handle_redirections_and_quotes(cur->redirs);
 			// Builtins within pipeline run in the child
-			if (is_builtin(cur->argv[0]))
-				exit(run_builtin_in_child(cur, envp));
+if (is_builtin(cur->argv[0]))
+				exit(run_builtin_in_child(cur, &envp));
 			// External command
 			execute_command(NULL, cur, envp);
 			// If execute_command returns, something went wrong
@@ -223,19 +223,21 @@ static int	run_pipeline(t_cmd *start, size_t n_cmds, char **envp)
 }
 
 /* ----------------------------- Entry point ------------------------------ */
-void	executor(t_cmd *cmd_list, char **envp)
+void	executor(t_cmd *cmd_list, char ***penvp)
 {
 	t_cmd	*cur;
 	size_t	n;
 	int		status;
+	char	**envp;
 
+	envp = *penvp;
 	cur = cmd_list;
 	while (cur)
 	{
 		n = count_pipeline_cmds(cur);
 		// Single non-piped builtin: run in parent
 		if (n == 1 && cur->argv && cur->argv[0] && is_builtin(cur->argv[0]) && cur->pipe == 0)
-			status = run_builtin_in_parent(cur, envp);
+			status = run_builtin_in_parent(cur, &envp);
 		else
 			status = run_pipeline(cur, n, envp);
 		(void)status; // TODO: store in shell state for $?
@@ -243,4 +245,5 @@ void	executor(t_cmd *cmd_list, char **envp)
 		while (n-- > 0 && cur)
 			cur = cur->next;
 	}
+	*penvp = envp;
 }

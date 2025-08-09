@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -39,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		cmds = parser_tokens(tokens);
 		if (cmds)
-			executor(cmds, envp_copy);
+			executor(cmds, &envp_copy);
 		free_token_list(tokens);
 		free_cmds(cmds);
 		free(input);
