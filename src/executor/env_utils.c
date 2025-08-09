@@ -98,7 +98,7 @@ int	env_set_var(char ***penvp, const char *name, const char *value)
 	if (value)
 	{
 		entry = ft_strjoin(name, "=");
-		entry = ft_strjoin_free(entry, value);
+		entry = ft_strjoin_free(entry, (char *)value);
 	}
 	else
 		entry = ft_strjoin(name, "=");
