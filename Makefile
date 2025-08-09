@@ -36,7 +36,8 @@ SRC = main.c \
 		src/executor/executor.c \
 		src/executor/executor_utils.c \
 		src/executor/env_utils.c \
-		src/executor/redir_utils.c
+		src/executor/redir_utils.c \
+		src/builtins/builtins.c
 
 OBJ = $(SRC:.c=.o)
 
