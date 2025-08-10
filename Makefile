@@ -75,4 +75,9 @@ fclean: clean
 	
 re: fclean all
 
+# Run builtin tests
+.PHONY: test-builtin
+test-builtin: $(NAME)
+	@bash ./tests/builtins_tests.sh
+
 .PHONY: all clean fclean re
