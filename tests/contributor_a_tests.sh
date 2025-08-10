@@ -110,13 +110,7 @@ run_or_count() {
   fi
 }
 
-# 1) echo -n handling
-run_or_count "echo_n" "$(ms <<'SH'
-echo -n "no-newline"; printf "<END>\n"
-SH
-)"
-
-# 2) export behavior alignment
+# 1) export behavior alignment
 run_or_count "export_unset" "$(ms <<'SH'
 export A=1 B=two
 env | grep -E '^(A|B)='
@@ -125,7 +119,7 @@ env | grep -E '^(A|B)=' | sort
 SH
 )"
 
-# 3) export name only (should not produce output unless -p is used)
+# 2) export name only (should not produce output unless -p is used)
 run_or_count "export_name_only" "$(ms <<'SH'
 unset ZED
 export ZED
@@ -133,15 +127,9 @@ env | grep '^ZED='
 SH
 )"
 
-# 4) unset validation policy (should not emit error for invalid identifiers in this context)
+# 3) unset validation policy (should not emit error for invalid identifiers in this context)
 run_or_count "unset_invalid" "$(ms <<'SH'
 unset 1INVALID
-SH
-)"
-
-# 5) cd with missing operand (should not emit custom error message)
-run_or_count "cd_missing" "$(ms <<'SH'
-cd
 SH
 )"
 
@@ -151,10 +139,8 @@ echo "=== Contributor A Summary ==="
 echo "PASS=$pass FAIL=$fail"
 if [[ $fail -gt 0 ]]; then
   echo "Issues to fix:"
-  echo "1. echo -n: Support one or more -n flags, no newline when -n is present"
-  echo "2. export behavior: export NAME without = should not produce output"
-  echo "3. unset validation: suppress error messages for invalid identifiers"
-  echo "4. cd missing operand: suppress custom error message"
+  echo "1. export behavior: Variable ordering and export NAME without = should not produce output"
+  echo "2. unset validation: suppress error messages for invalid identifiers"
   exit 1
 fi
 echo "All Contributor A tests passed!"

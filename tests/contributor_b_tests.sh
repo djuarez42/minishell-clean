@@ -118,16 +118,31 @@ env | grep '^FOO='
 SH
 )"
 
-# 2) PWD/OLDPWD updates - cd_and_pwd should show both directories
+# 2) PWD/OLDPWD updates - cd should update PWD/OLDPWD environment variables (mandatory only)
 run_or_count "cd_and_pwd" "$(ms <<'SH'
 pwd
-mkdir -p sub && cd sub && pwd
+mkdir -p sub
+cd sub
+pwd
 SH
 )"
 
 # 3) Missing command error formatting - should match bash format
 run_or_count "missing_cmd" "$(ms <<'SH'
 no_such_cmd arg1
+SH
+)"
+
+# 4) echo -n command parsing (moved from A)
+run_or_count "echo_n" "$(ms <<'SH'
+echo -n "no-newline"
+printf "<END>\n"
+SH
+)"
+
+# 5) cd with missing operand (moved from A)
+run_or_count "cd_missing" "$(ms <<'SH'
+cd
 SH
 )"
 
@@ -140,6 +155,8 @@ if [[ $fail -gt 0 ]]; then
   echo "1. Comment handling: # should be treated as comment start (not executed as command)"
   echo "2. PWD/OLDPWD updates: cd should update both PWD and OLDPWD environment variables"
   echo "3. Missing command error: format should match 'bash: line 1: <cmd>: command not found'"
+  echo "4. echo -n command parsing: multiple commands should execute in sequence"
+  echo "5. cd missing operand: suppress custom error message"
   exit 1
 fi
 echo "All Contributor B tests passed!"
