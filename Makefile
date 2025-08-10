@@ -80,4 +80,12 @@ re: fclean all
 test-builtin: $(NAME)
 	@bash ./tests/builtins_tests.sh
 
+# Run contributor-specific tests
+.PHONY: test-a test-b
+test-a: $(NAME)
+	@bash ./tests/contributor_a_tests.sh
+
+test-b: $(NAME)
+	@bash ./tests/contributor_b_tests.sh
+
 .PHONY: all clean fclean re

@@ -81,9 +81,77 @@ char	**reconstruct_words(const char *input)
 	return (tokens);
 }
 
+// Helper to strip comments from input line
+// Comments start with # when not inside quotes and after whitespace or at start of line
+static char	*strip_comments(const char *input)
+{
+	int		i;
+	int		quote_state;
+	char	open_quote;
+	char	*result;
+	int		len;
+
+	if (!input)
+		return (NULL);
+	len = ft_strlen(input);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	
+	i = 0;
+	quote_state = 0;
+	open_quote = 0;
+	while (input[i])
+	{
+		// Handle quote state
+		if (is_quote(input[i]) && quote_state == 0)
+		{
+			quote_state = 1;
+			open_quote = input[i];
+		}
+		else if (quote_state == 1 && input[i] == open_quote)
+		{
+			quote_state = 0;
+			open_quote = 0;
+		}
+		// Check for comment start (# not in quotes)
+		else if (input[i] == '#' && quote_state == 0)
+		{
+			// Check if # is at start of line or after whitespace
+			if (i == 0 || ft_isspace(input[i - 1]))
+			{
+				// Found comment - terminate string here
+				result[i] = '\0';
+				return (result);
+			}
+		}
+		result[i] = input[i];
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
+}
+
 char	**clean_input_quotes(const char *input)
 {
-	if (!are_quotes_closed(input))
+	char	*comment_free_input;
+	char	**result;
+
+	if (!input)
 		return (NULL);
-	return (reconstruct_words(input));
+	
+	// First strip comments
+	comment_free_input = strip_comments(input);
+	if (!comment_free_input)
+		return (NULL);
+	
+	// Then check quotes and reconstruct words
+	if (!are_quotes_closed(comment_free_input))
+	{
+		free(comment_free_input);
+		return (NULL);
+	}
+	result = reconstruct_words(comment_free_input);
+	free(comment_free_input);
+	return (result);
 }
